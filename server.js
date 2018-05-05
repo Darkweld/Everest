@@ -18,14 +18,14 @@ app.use("/controllers", express.static(process.cwd() + "/app/controllers"));
 app.use("/public", express.static(process.cwd() + "/public"));
 app.use("/css", express.static(process.cwd() + "/public/css"));
 
-app.use(session({	secret: process.env.sessionSecret,
+app.use(session({secret: process.env.sessionSecret,
 "resave": false,
 "saveUninitialized": false,
 "cookie": {"expires": false, "maxAge": 3 * 24 * 60 * 60 * 1000}
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 routes(app, passport);
 
