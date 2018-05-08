@@ -1,4 +1,33 @@
-.wrapper {
-  background-color: dimgray;
+/*main elements */
+body {
+  background-color: lightgray;
 }
 
+/* wrapper and overlay */
+
+.wrapper {
+  width: 100%;
+  height: auto;
+}
+.textHolder {
+	width: 100%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	position: fixed;
+	text-align: center;
+	top: 50%;
+}
+
+/* texts */
+
+.everestTitle, .bigTitle {
+  font-family: "Arial Black", Gadget, sans-serif;
+  color: white;
+  margin: 0;
+}
+.everestTitle {
+  font-size: 10em;
+}
+.bigTitle {
+  font-size: 3em;
+}

@@ -1,7 +1,7 @@
 {
-  "name": "musictest",
+  "name": "everest",
   "version": "1.0.0",
-  "description": "Music lyric demonstration app",
+  "description": "Everest website",
   "main": "server.js",
   "scripts": {
     "start": "webpack --mode development",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Darkweld/musicTest.git"
+    "url": "git+https://github.com/Darkweld/everest.git"
   },
   "keywords": [
     "node",
@@ -20,9 +20,9 @@
   "author": "https://github.com/Darkweld",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Darkweld/musicTest/issues"
+    "url": "https://github.com/Darkweld/everest/issues"
   },
-  "homepage": "https://github.com/Darkweld/musicTest#readme",
+  "homepage": "https://github.com/Darkweld/everest#readme",
   "dependencies": {
     "dotenv": "^5.0.1",
     "express": "^4.16.3",

@@ -7,7 +7,6 @@ module.exports = (app, passport) => {
 
 app.route("/")
   .get((req, res) => res.render("index"));
-    //.get((req, res) => res.json("Hello World"));
 
 };
 
