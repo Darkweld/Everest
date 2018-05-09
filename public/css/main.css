@@ -9,7 +9,7 @@ body {
   width: 100%;
   height: auto;
 }
-.textHolder {
+.bigTextHolder {
 	width: 100%;
 	left: 50%;
 	transform: translate(-50%,-50%);
@@ -26,8 +26,26 @@ body {
   margin: 0;
 }
 .everestTitle {
-  font-size: 10em;
+  font-size: .5vw;
 }
-.bigTitle {
-  font-size: 3em;
+
+/* animations */
+
+.everestTitle-enter {
+  font-size: .5vw;
+  opacity: 0.1;
 }
+.everestTitle-enter-active {
+  font-size: 15vw;
+  opacity: 1;
+  transition: all 300ms ease-out;
+}
+.everestTitle-leave {
+  opacity: 1;
+  font-size: 15vw;
+}
+.everestTitle-leave-active {
+  opacity: 0.01;
+  transition: all 300ms ease-in;
+}
+
