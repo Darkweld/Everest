@@ -11,6 +11,7 @@ app.set("views", "public/views");
 
 app.use("/public", express.static(process.cwd() + "/public"));
 app.use("/dist", express.static(process.cwd() + "/dist"));
+app.use("/assets", express.static(process.cwd() + "/public/assets"));
 
 routes(app);
 

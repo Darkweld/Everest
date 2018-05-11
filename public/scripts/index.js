@@ -5,13 +5,14 @@ import style from "../css/main.css";
 
 //video src in "../assets/*[video_name]*";
 
-class Video extends React.Component {
+class Background extends React.Component {
   render() {
 
     return(
-      <video autoPlay = "true">
-        <source src = "../assets/everest01" type = "video/mp4" />
-      </video>
+      <CSSTransition in = {this.props.bool} classNames = {style.slideIn} timeout = {2000} appear = {true}
+      onExited = {e => {this.props.exit()}}>
+        <img className = "background" src = {this.props.src} />
+      </CSSTransition>
     );
   }
 }
@@ -44,7 +45,6 @@ class TextRight extends React.Component{
 
 class MainTitle extends React.Component {
   render() {
-    console.log(this.props.bool);
     return(
       <div className = {style.bigTextHolder}>
       <CSSTransition in = {true} classNames = {style.scaleOffscreen} appear = {true} timeout={10000}
@@ -52,7 +52,7 @@ class MainTitle extends React.Component {
         <h1 className = {style.everestTitle}>EVEREST</h1>
       </CSSTransition>
       <CSSTransition in = {this.props.bool} classNames = {style.fade} timeout = {2000}>
-        <h1 className = {style.subheadingTitle}>The tallest mountain</h1>
+        <h1 className = {style.subheadingTitle}>THE TALLEST MOUNTAIN</h1>
       </CSSTransition>
       </div>
     );
@@ -62,12 +62,18 @@ class MainTitle extends React.Component {
 class Main extends React.Component {
   constructor() {
     super();
-    this.state = {title: false, subHeading: false};
+    this.state = {title: false, subHeading: false, transition: true, img: 1};
     this.setSubheading = this.setSubheading.bind(this);
+    this.exitImage = this.exitImage.bind(this);
   }
 
 setSubheading () {
   this.setState({subHeading: true});
+}
+exitImage() {
+  let num = this.state.img;
+  (num >= 4) ? num = 1 : num = num + 1;
+  this.setState({img: num});
 }
 
   render() {
@@ -76,8 +82,10 @@ setSubheading () {
 
     return(
       <div className = {style.wrapper}>
-        <button onClick = {e => this.setState({title: !this.state.title, subHeading: false})} />
+        <button onClick = {e => this.setState({title: !this.state.title, subHeading: false, transition: false})} />
         {title}
+        <Background bool = {this.state.transition} src = {"../assets/everest" + this.state.img.toString() + ".jpg"}
+        exit = {this.exitImage}/>
       </div>
     );
   }
