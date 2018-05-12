@@ -10,7 +10,7 @@ class Background extends React.Component {
 
     return(
       <CSSTransition in = {this.props.bool} classNames = {style.slideIn} timeout = {2000} appear = {true}
-      onExited = {e => {this.props.exit()}}>
+      onExit = {e => {this.props.exit()}}>
         <img className = "background" src = {this.props.src} />
       </CSSTransition>
     );
@@ -78,12 +78,15 @@ exitImage() {
 
   render() {
     let title = (this.state.title) ? <MainTitle sub = {this.setSubheading} bool = {this.state.subHeading} /> : null;
-
+    let secondBG = (!this.state.transition) ?
+    <Background bool = {!this.state.transition} src = {"../assets/everest" + this.state.img.toString() + ".jpg"}
+    exit = {this.exitImage}/> : null;
 
     return(
       <div className = {style.wrapper}>
-        <button onClick = {e => this.setState({title: !this.state.title, subHeading: false, transition: false})} />
+        <button onClick = {e => this.setState({transition: !this.state.transition})} />
         {title}
+        {secondBG}
         <Background bool = {this.state.transition} src = {"../assets/everest" + this.state.img.toString() + ".jpg"}
         exit = {this.exitImage}/>
       </div>
