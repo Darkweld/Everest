@@ -40,7 +40,8 @@ body {
 /* image */
 
 .background {
-  transform: translateY(-150%);
+  position: absolute;
+  top: -150%;
   width: 100%;
   height: 100%;
 }
@@ -77,20 +78,20 @@ body {
 .slideIn, .slideIn-appear {
 }
 .slideIn-appear.slideIn-appear-active{
-  transform: none;
-  transition: all 2s ease-out;
+  top: 0;
+  transition: all 2s ease-in;
 }
 .slideIn-enter-done {
-  transform: none;
+  top: 0;
 }
 .slideIn-exit {
-  transform: none;
+  top: 0;
 }
 .slideIn-exit.slideIn-exit-active {
-  transform: translateY(150%);
+  top: 150%;
   transition: all 2s ease-in;
 }
 .slideIn-exit-done {
-  transform: translateY(150%);
+  top: 150%;
 }
 

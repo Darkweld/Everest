@@ -1,18 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import style from "../css/main.css";
 
 //video src in "../assets/*[video_name]*";
 
 class Background extends React.Component {
+    //onExit = {e => {this.props.exit()}}>
   render() {
+    let arr = this.props.num.map((v, i) =>
+      (v === true) ?
+      <CSSTransition key = {i} classNames = {style.slideIn} timeout = {2000} >
+      <img className = {style.background} src = {"../assets/everest" + (i + 1).toString() + ".jpg"} />
+      </CSSTransition> : null);
 
     return(
-      <CSSTransition in = {this.props.bool} classNames = {style.slideIn} timeout = {2000} appear = {true}
-      onExit = {e => {this.props.exit()}}>
-        <img className = "background" src = {this.props.src} />
-      </CSSTransition>
+    <TransitionGroup className = "test">
+      {arr}
+    </TransitionGroup>
     );
   }
 }
@@ -62,7 +67,7 @@ class MainTitle extends React.Component {
 class Main extends React.Component {
   constructor() {
     super();
-    this.state = {title: false, subHeading: false, transition: true, img: 1};
+    this.state = {title: false, subHeading: false, img: [true, false, false, false]}
     this.setSubheading = this.setSubheading.bind(this);
     this.exitImage = this.exitImage.bind(this);
   }
@@ -71,24 +76,23 @@ setSubheading () {
   this.setState({subHeading: true});
 }
 exitImage() {
-  let num = this.state.img;
-  (num >= 4) ? num = 1 : num = num + 1;
-  this.setState({img: num});
+  let l = this.state.img.length;
+  let num = (this.state.img.indexOf(true) + 1 < l - 1) ? this.state.img.indexOf(true) + 1 : 0;
+  let arr = Array(this.state.img.length).fill(false);
+  arr[num] = true;
+  this.setState({img: arr});
 }
 
   render() {
     let title = (this.state.title) ? <MainTitle sub = {this.setSubheading} bool = {this.state.subHeading} /> : null;
-    let secondBG = (!this.state.transition) ?
-    <Background bool = {!this.state.transition} src = {"../assets/everest" + this.state.img.toString() + ".jpg"}
-    exit = {this.exitImage}/> : null;
+
+
 
     return(
       <div className = {style.wrapper}>
-        <button onClick = {e => this.setState({transition: !this.state.transition})} />
+        <button onClick = {this.exitImage} />
         {title}
-        {secondBG}
-        <Background bool = {this.state.transition} src = {"../assets/everest" + this.state.img.toString() + ".jpg"}
-        exit = {this.exitImage}/>
+        <Background num = {this.state.img} exit = {this.exitImage}/>
       </div>
     );
   }
