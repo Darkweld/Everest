@@ -22,14 +22,14 @@ class Appear extends React.Component {
     let arr = null;
     if (this.props.textSlides) arr = this.props.textSlides.map((c, i) =>
     <CSSTransition key = {i} timeout = {4000} classNames = {style.fade}>
-      <p>{c}</p>
+      <span>{" " + c}</span>
     </CSSTransition>
     );
 
 
   return (
-  <TransitionGroup className = "test">
-  {arr}
+  <TransitionGroup style = {{}}>
+    {arr}
   </TransitionGroup>
   );
   }
@@ -39,14 +39,14 @@ class Appear extends React.Component {
 class MainTitle extends React.Component {
   render() {
     return(
-      <div className = {style.bigTextHolder}>
-      <CSSTransition in = {true} classNames = {style.scaleOffscreen} appear = {true} timeout={10000}>
+    <TransitionGroup className = {style.bigTextHolder}>
+      <CSSTransition classNames = {style.scaleOffscreen} appear = {true} timeout={10000}>
         <h1 className = {style.everestTitle}>EVEREST</h1>
       </CSSTransition>
-      <CSSTransition in = {true} classNames = {style.test} appear = {true} timeout = {10000}>
+      <CSSTransition classNames = {style.test} appear = {true} timeout = {10000}>
         <h1 className = {style.subheadingTitle}>THE TALLEST MOUNTAIN</h1>
       </CSSTransition>
-      </div>
+    </TransitionGroup>
     );
   }
 }
@@ -59,21 +59,34 @@ class Main extends React.Component {
     this.textProgress = this.textProgress.bind(this);
 }
 
-componentDidMount() {
-  this.setState({title: true});
-}
-
 wheelUp(e) {
+let [slide, title, currentSlide] = [0, false, this.state.slide];
+
   if (e.deltaY < 0) {
      if (this.state.title) {
-       this.progressInterval = setInterval(() => this.textProgress(), 500);
-       this.setState({title: false})
-     } else if (this.state.slide + 1 < this.state.maxSlides){
-       this.setState({slide: this.state.slide + 1})
+       if (currentSlide + 1 < this.state.maxSlides) {
+         slide = currentSlide + 1;
+         title = false;
+       }
+     } else {
+        if (currentSlide === 3) {
+          title = true;
+        } else if (currentSlide + 1 < this.state.maxSlides) slide = currentSlide + 1;
      }
+
   } else {
-     (this.state.slide > 0) ? this.setState({slide: this.state.slide - 1}) : this.setState({slide: 0, title: true});
+     if (this.state.title) {
+        title = false;
+     } else {
+       if (currentSlide === 4) {
+         title = true;
+       } else if (currentSlide > 0) {
+         slide = currentSlide - 1;
+       }
+     }
   }
+  if (!title) this.progressInterval = setInterval(() => this.textProgress(), 500);
+  this.setState({textProgress: 0, slide: slide, title: title});
 }
 
 textProgress() {
@@ -81,9 +94,11 @@ textProgress() {
   let num = (this.state.textProgress + 1 < l) ? this.state.textProgress + 1 : l;
   if (num === l) clearInterval(this.progressInterval);
   this.setState({textProgress: num});
-
 }
 
+componentWillUnmount() {
+  clearInterval(this.progressInterval);
+}
 
   render() {
     let title = (this.state.title) ? <MainTitle sub = {this.setSubheading} bool = {this.state.subHeading} /> : null;
