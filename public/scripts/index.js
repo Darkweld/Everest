@@ -21,14 +21,14 @@ class Appear extends React.Component {
   render() {
     let arr = null;
     if (this.props.textSlides) arr = this.props.textSlides.map((c, i) =>
-    <CSSTransition key = {i} timeout = {4000} classNames = {style.fade}>
+    <CSSTransition key = {i} timeout = {1000} classNames = {style.fade}>
       <span>{" " + c}</span>
     </CSSTransition>
     );
 
 
   return (
-  <TransitionGroup style = {{}}>
+  <TransitionGroup c >
     {arr}
   </TransitionGroup>
   );
@@ -43,7 +43,7 @@ class MainTitle extends React.Component {
       <CSSTransition classNames = {style.scaleOffscreen} appear = {true} timeout={10000}>
         <h1 className = {style.everestTitle}>EVEREST</h1>
       </CSSTransition>
-      <CSSTransition classNames = {style.test} appear = {true} timeout = {10000}>
+      <CSSTransition classNames = {style.subtitleFade} appear = {true} timeout = {10000}>
         <h1 className = {style.subheadingTitle}>THE TALLEST MOUNTAIN</h1>
       </CSSTransition>
     </TransitionGroup>
@@ -54,7 +54,8 @@ class MainTitle extends React.Component {
 class Main extends React.Component {
   constructor() {
     super();
-    this.state = {title: false, slide: 0, textProgress: 1, maxSlides: everestText.length};
+    this.state = {title: false, slide: 0, textProgress: 1, maxSlides: everestText.length, currentText: []};
+    this.progressInterval = null;
     this.wheelUp = this.wheelUp.bind(this);
     this.textProgress = this.textProgress.bind(this);
 }
@@ -80,22 +81,23 @@ let [slide, title, currentSlide] = [0, false, this.state.slide];
      } else {
        if (currentSlide === 4) {
          title = true;
+         slide = currentSlide - 1;
        } else if (currentSlide > 0) {
          slide = currentSlide - 1;
        }
      }
   }
-  if (!title) this.progressInterval = setInterval(() => this.textProgress(), 500);
+  clearInterval(this.progressInterval);
+  this.progressInterval = setInterval(this.textProgress, 250);
   this.setState({textProgress: 0, slide: slide, title: title});
 }
 
 textProgress() {
   let l = everestText[this.state.slide].text.split(" ").length;
   let num = (this.state.textProgress + 1 < l) ? this.state.textProgress + 1 : l;
-  if (num === l) clearInterval(this.progressInterval);
+  if (num >= l) clearInterval(this.progressInterval);
   this.setState({textProgress: num});
 }
-
 componentWillUnmount() {
   clearInterval(this.progressInterval);
 }

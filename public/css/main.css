@@ -67,7 +67,7 @@ body {
 }
 .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: all 2000ms ease-out;
+  transition: all 1000ms;
 }
 .fade-enter-done {
   opacity: 1;
@@ -77,14 +77,17 @@ body {
 }
 .fade-exit.fade-exit-active {
   opacity: 0;
-  transition: all 2000ms ease-out;
+  transition: all 1000ms;
 }
 .fade-exit-done {
   opacity: 0;
 }
-.test, .test-enter-active {
+
+
+
+.subtitleFade, .subtitleFade-enter-active {
 }
-.test-enter-done {
+.subtitleFade-enter-done {
   opacity: 1;
   transition: all 2000ms ease-out;
 }
