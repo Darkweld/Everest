@@ -4,17 +4,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import style from "../css/main.css";
 import everestText from "../assets/text/everestText.js";
 
-//video src in "../assets/*[video_name]*";
 
-class Background extends React.Component {
-    //onExit = {e => {this.props.exit()}}>
-  render() {
-    return(
-      <div>
-      </div>
-    );
-  }
-}
 
 
 class Appear extends React.Component {
@@ -22,13 +12,13 @@ class Appear extends React.Component {
     let arr = null;
     if (this.props.textSlides) arr = this.props.textSlides.map((c, i) =>
     <CSSTransition key = {i} timeout = {1000} classNames = {style.fade}>
-      <span>{" " + c}</span>
+      {c}
     </CSSTransition>
     );
 
 
   return (
-  <TransitionGroup c >
+  <TransitionGroup>
     {arr}
   </TransitionGroup>
   );
@@ -104,10 +94,18 @@ componentWillUnmount() {
 
   render() {
     let title = (this.state.title) ? <MainTitle sub = {this.setSubheading} bool = {this.state.subHeading} /> : null;
-    let text = (!this.state.title) ? everestText[this.state.slide].text.split(" ").slice(0, this.state.textProgress) : null;
+    let slide = everestText[this.state.slide];
+    let text = (!this.state.title) ? slide.text.split(" ").slice(0, this.state.textProgress)
+    .map((v, i) => (slide.bold === v) ?
+    <b><span key = {i}>{" " + v}</span></b> : <span key = {i}>{" " + v}</span>)
+    : null;
 
     return(
       <div className = {style.wrapper} onWheel = {this.wheelUp}>
+        <video className = {style.snowVideo} autoPlay loop>
+          <source src = "../assets/video/snow.mp4" type="video/mp4" />
+          <img className = {style.snowFallback} src = "../assets/images/snowFallback.jpg" title="Your browser does not support the <video> tag" />
+        </video>
         {title}
         <Appear textSlides = {text} />
       </div>
