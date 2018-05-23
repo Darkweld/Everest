@@ -18,7 +18,7 @@ class Appear extends React.Component {
 
 
   return (
-  <TransitionGroup>
+  <TransitionGroup className = {style.slideTextHolder}>
     {arr}
   </TransitionGroup>
   );
@@ -51,29 +51,29 @@ class Main extends React.Component {
 }
 
 wheelUp(e) {
-let [slide, title, currentSlide] = [0, false, this.state.slide];
+let [slide, title] = [this.state.slide, false];
 
   if (e.deltaY < 0) {
      if (this.state.title) {
-       if (currentSlide + 1 < this.state.maxSlides) {
-         slide = currentSlide + 1;
+       if (slide + 1 < this.state.maxSlides) {
+         slide++;
          title = false;
        }
      } else {
-        if (currentSlide === 3) {
+        if (slide === 3) {
           title = true;
-        } else if (currentSlide + 1 < this.state.maxSlides) slide = currentSlide + 1;
+        } else if (slide + 1 < this.state.maxSlides) slide++;
      }
 
   } else {
      if (this.state.title) {
         title = false;
      } else {
-       if (currentSlide === 4) {
+       if (slide === 4) {
          title = true;
-         slide = currentSlide - 1;
-       } else if (currentSlide > 0) {
-         slide = currentSlide - 1;
+         slide--;
+       } else if (slide > 0) {
+         slide--;
        }
      }
   }
@@ -97,13 +97,14 @@ componentWillUnmount() {
     let slide = everestText[this.state.slide];
     let text = (!this.state.title) ? slide.text.split(" ").slice(0, this.state.textProgress)
     .map((v, i) => (slide.bold === v) ?
-    <b><span key = {i}>{" " + v}</span></b> : <span key = {i}>{" " + v}</span>)
+    <b className = {style.slideTextBold}><span className = {style.slideText} key = {i}>{" " + v}</span></b>
+    : <span className = {style.slideText} key = {i}>{" " + v}</span>)
     : null;
 
     return(
       <div className = {style.wrapper} onWheel = {this.wheelUp}>
         <video className = {style.snowVideo} autoPlay loop>
-          <source src = "../assets/video/snow.mp4" type="video/mp4" />
+          <source src = "../assets/video/snow.webm" type="video/webm" />
           <img className = {style.snowFallback} src = "../assets/images/snowFallback.jpg" title="Your browser does not support the <video> tag" />
         </video>
         {title}
