@@ -18,15 +18,20 @@ body {
 	text-align: center;
 	top: 50%;
 }
-.slideTextHolder {
+.slideTextHolder, .linkBox {
   width: 100%;
   left: 10%;
   position: fixed;
   top: 45%;
   z-index: 1;
+}
+.slideTextHolder {
   display: flex;
   flex-flow: row;
   align-items: center;
+}
+.linkBox {
+  text-align: center;
 }
 
 
@@ -54,9 +59,23 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0 .5vw;
 }
-.slideTextBold {
+.slideTextBold .slideText {
   font-size: 3vw;
   color: lightsalmon;
+}
+.attrHeader {
+  font-size: 5vw;
+  margin: .5vw 0;
+  color: gold;
+}
+.attrSub {
+  font-size: 3vw;
+  margin: .5vw 0;
+  color: lightblue;
+}
+.attribution {
+  color: aquamarine;
+  font-size: 1vw;
 }
 
 /* image/videos */
