@@ -5,6 +5,17 @@ import style from "../css/main.css";
 import everestText from "../assets/text/everestText.js";
 import Information from "./infoComponent.js";
 
+
+function Intro () {
+  return(
+  <TransitionGroup className = {style.slideTextHolder}>
+    <CSSTransition appear = {true} timeout = {1000} classNames = {style.fade}>
+      <p className = {style.subheadingTitle}> Scroll up and down to change slides. </p>
+    </CSSTransition>
+  </TransitionGroup>
+  );
+}
+
 class Appear extends React.Component {
   render() {
     let arr = null;
@@ -121,8 +132,7 @@ componentWillUnmount() {
           <img className = {style.snowFallback} src = "../assets/images/snowFallback.jpg" title="Your browser does not support the <video> tag" />
         </video>
         {s.title && <MainTitle />}
-        {(text) ? <Appear textSlides = {text} /> :
-        <div className = {style.slideTextHolder} > <p className = {style.slideTextBold}> Scroll up and down to change slides. </p></div> }
+        {(text) ? <Appear textSlides = {text} /> : <Intro />}
         {this.state.finished && <Information />}
       </div>
     );
