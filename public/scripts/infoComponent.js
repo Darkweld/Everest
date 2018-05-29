@@ -13,6 +13,7 @@ function Information () {
       <a className = {style.attribution} href = "http://www.alanarnette.com/blog/2017/12/17/everest-by-the-numbers-2018-edition/">
       Everest by the numbers: 2018 edition
       </a>
+      <br/>
       <a className = {style.attribution} href = "https://en.wikipedia.org/wiki/Mount_Everest">
       Mount Everest (Wikipedia)
       </a>

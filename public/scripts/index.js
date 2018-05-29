@@ -20,16 +20,16 @@ class Appear extends React.Component {
   render() {
     let arr = null;
     if (this.props.textSlides) arr = this.props.textSlides.map((c, i) =>
-    <CSSTransition key = {i} timeout = {1000} classNames = {style.fade}>
+    <CSSTransition key = {Math.random().toString() + " " + i.toString()} appear = {true}
+    timeout = {i * 200} classNames = {style.fade} exit = {false}>
       {c}
-    </CSSTransition>
-    );
+    </CSSTransition> );
+
 
   return (
   <TransitionGroup className = {style.slideTextHolder}>
     {arr}
-  </TransitionGroup>
-  );
+  </TransitionGroup>  );
   }
 }
 
@@ -38,10 +38,10 @@ class MainTitle extends React.Component {
   render() {
     return(
     <TransitionGroup className = {style.bigTextHolder}>
-      <CSSTransition classNames = {style.scaleOffscreen} appear = {true} timeout={10000}>
+      <CSSTransition classNames = {style.scaleOffscreen} appear = {true} timeout={5000}>
         <h1 className = {style.everestTitle}>EVEREST</h1>
       </CSSTransition>
-      <CSSTransition classNames = {style.subtitleFade} appear = {true} timeout = {10000}>
+      <CSSTransition classNames = {style.subtitleFade} appear = {true} timeout = {5000}>
         <h1 className = {style.subheadingTitle}>THE TALLEST MOUNTAIN</h1>
       </CSSTransition>
     </TransitionGroup>
@@ -52,10 +52,9 @@ class MainTitle extends React.Component {
 class Main extends React.Component {
   constructor() {
     super();
-    this.state = {title: false, slide: 0, textProgress: 1, started: false, finished: false, currentText: []};
+    this.state = {title: false, slide: 0, started: false, finished: false};
     this.progressInterval = null;
     this.wheelUp = this.wheelUp.bind(this);
-    this.textProgress = this.textProgress.bind(this);
 }
 
 wheelUp(e) {
@@ -101,29 +100,31 @@ let [slide, title, started, finished] = [s.slide, false, s.started, s.finished];
     }
 
   }
-  clearInterval(this.progressInterval);
-  this.progressInterval = setInterval(this.textProgress, 250);
-  this.setState({textProgress: 0, slide: slide, title: title, started: started, finished: finished});
-}
-
-textProgress() {
-  let l = everestText[this.state.slide].text.split(" ").length;
-  let num = (this.state.textProgress + 1 < l) ? this.state.textProgress + 1 : l;
-  if (num >= l) clearInterval(this.progressInterval);
-  this.setState({textProgress: num});
-}
-componentWillUnmount() {
-  clearInterval(this.progressInterval);
+  this.setState({slide: slide, title: title, started: started, finished: finished});
 }
 
   render() {
     let s = this.state;
-    let slide = everestText[this.state.slide];
-    let text = (!this.state.title && this.state.started && !this.state.finished) ? slide.text.split(" ").slice(0, this.state.textProgress)
-    .map((v, i) => (slide.bold === v) ?
+    let slide = everestText[s.slide];
+    let slideText = slide.text.split(" ").map((v, i) => (slide.bold === v) ?
     <b className = {style.slideTextBold}><span className = {style.slideText} key = {i}>{" " + v}</span></b>
-    : <span className = {style.slideText} key = {i}>{" " + v}</span>)
-    : null;
+    : <span className = {style.slideText} key = {i}>{" " + v}</span>);
+
+    let information = null;
+    switch (true) {
+      case !s.started:
+        information =  <Intro />;
+        break;
+      case s.title:
+        information = <MainTitle />;
+        break;
+      case s.finished:
+        information = <Information />;
+        break;
+      default:
+        information = <Appear textSlides = {slideText} />;
+        break;
+    }
 
     return(
       <div className = {style.wrapper} onWheel = {this.wheelUp}>
@@ -131,9 +132,7 @@ componentWillUnmount() {
           <source src = "../assets/video/snow.webm" type="video/webm" />
           <img className = {style.snowFallback} src = "../assets/images/snowFallback.jpg" title="Your browser does not support the <video> tag" />
         </video>
-        {s.title && <MainTitle />}
-        {(text) ? <Appear textSlides = {text} /> : <Intro />}
-        {this.state.finished && <Information />}
+        {information}
       </div>
     );
   }
