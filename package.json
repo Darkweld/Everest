@@ -4,7 +4,8 @@
   "description": "Everest website",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "webpack --mode production"
   },
   "engines": {
     "node": ">=9.11.1"
